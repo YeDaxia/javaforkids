@@ -9,7 +9,8 @@ import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 public class Calculator {
-	// Declare and instantiate window components
+	
+	// 声明并创建所有的窗口控件
 	JButton button0 = new JButton("0");
 	JButton button1 = new JButton("1");
 	JButton button2 = new JButton("2");
@@ -29,19 +30,17 @@ public class Calculator {
 	JPanel windowContent = new JPanel();
 	JTextField displayField = new JTextField(30);
 
-	// Constructor
+	// 构造方法
 	Calculator() {
-		// Set the layout manager for this panel
+		
+		//为这个面板设置边框布局
 		BorderLayout bl = new BorderLayout();
 		windowContent.setLayout(bl);
 
-		// Add the display field to the top od the window
-		windowContent.add("North", displayField);
+		//把文本框放到窗口的顶部
+		windowContent.add(BorderLayout.NORTH, displayField);
 
-		// Create the panel with the GridLayout
-		// that will contain 12 buttons - 10 numeric ones, and
-		// buttons with the point and the equal sign
-
+		//创建一个布局为GridLayout的面板, 它可以容纳12个按钮: 10个数字，一个小数点和一个等号
 		JPanel p1 = new JPanel();
 		GridLayout gl = new GridLayout(4, 3);
 		p1.setLayout(gl);
@@ -59,11 +58,10 @@ public class Calculator {
 		p1.add(buttonPoint);
 		p1.add(buttonEqual);
 
-		// Add the panel p1 to the center area of the window
-		windowContent.add("Center", p1);
-		// Create the panel with the GridLayout
-		// that will contain 4 action buttons -
-		// Plus, Minus, Divide and Multiply
+		//把面板p1添加到窗口的中间区域。
+		windowContent.add(BorderLayout.CENTER, p1);
+		
+		//创建同样GridLayout布局的面板p2, 把加减乘除四个按钮添加到上面
 		JPanel p2 = new JPanel();
 		GridLayout gl2 = new GridLayout(4, 1);
 		p2.setLayout(gl2);
@@ -72,22 +70,20 @@ public class Calculator {
 		p2.add(buttonMultiply);
 		p2.add(buttonDivide);
 
-		// Add the panel p2 to the east area of the window
-		windowContent.add("East", p2);
+		//把面板p2添加到窗口的右边
+		windowContent.add(BorderLayout.EAST, p2);
 
-		// Create the frame and add the content pane to it
+		//创建窗口框架，把内容面板添加到上面
 		JFrame frame = new JFrame("Calculator");
 		frame.setContentPane(windowContent);
 
-		// set the size of the window to be big enough to
-		// accomodate all window controls
+		// 设置窗口自适应大小
 		frame.pack();
 
-		// Display the window
+		// 显示它
 		frame.setVisible(true);
 
-		// Instantiate the event listener and
-		// register each button with it
+		// 初始化按钮的点击事件监听器，并把它添加到每个按钮上面
 		CalculatorEngine calcEngine = new CalculatorEngine(this);
 
 		button0.addActionListener(calcEngine);
@@ -110,7 +106,7 @@ public class Calculator {
 	}
 
 	public static void main(String[] args) {
-		// Instantiate the class Calculator
+		//初始化Calculator这个类
 		Calculator calc = new Calculator();
 	}
 }

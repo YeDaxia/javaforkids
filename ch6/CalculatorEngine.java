@@ -10,36 +10,32 @@ import javax.swing.JButton;
 
 public class CalculatorEngine implements ActionListener {
 
-	Calculator parent; // a reference to Calculator window
+	Calculator parent;  // Calculator对象的引用
 	char selectedAction = ' '; // +, -, /, or *
 
 	double currentResult = 0;
 
-	// Constructor stores the reference to the Calculator
-	// window in the member variable parent
+	// 通过构造方法传入计算器的窗口对象，并用成员变量parent来存储这个对象。
 	CalculatorEngine(Calculator parent) {
 		this.parent = parent;
 	}
 
 	public void actionPerformed(ActionEvent e) {
 
-		// Get the source of this action
+		// 获取动作源
 		JButton clickedButton = (JButton) e.getSource();
 		String dispFieldText = parent.displayField.getText();
 
 		double displayValue = 0;
 
-		// Get the number from the text field
-		// if it�s not empty
+		// 把文本框中的字符串不为空，就转化成数字
 		if (!"".equals(dispFieldText)) {
 			displayValue = Double.parseDouble(dispFieldText);
 		}
+		
 		Object src = e.getSource();
 
-		// For each action button memorize selected
-		// action +, -, /, or *, store the current value
-		// in the currentResult, and clean up the display
-		// field for entering the next number
+		//如果点击的是运算按钮，则把文本框的值存到currentResult中，用selectedAction来存储运算的类型，并把文本框清空
 		if (src == parent.buttonPlus) {
 			selectedAction = '+';
 			currentResult = displayValue;
@@ -57,27 +53,24 @@ public class CalculatorEngine implements ActionListener {
 			currentResult = displayValue;
 			parent.displayField.setText("");
 		} else if (src == parent.buttonEqual) {
-			// Perform the calculations based on selectedAction
-			// update the value of the variable currentResult
-			// and display the result
+			// 点击的是等号，则用上一次的值currentResult和selectedAction的运算类型进行运算，
+			// 把结果存到currentResult, 并显示在文本框中。
 			if (selectedAction == '+') {
 				currentResult += displayValue;
-				// Convert the result to String by concatenating
-				// to an empty string and display it
-				parent.displayField.setText("" + currentResult);
+				//把数字类型转化成字符串，并显示到文本框中
+				parent.displayField.setText(String.valueOf(currentResult) );
 			} else if (selectedAction == '-') {
 				currentResult -= displayValue;
-				parent.displayField.setText("" + currentResult);
+				parent.displayField.setText(String.valueOf(currentResult));
 			} else if (selectedAction == '/') {
 				currentResult /= displayValue;
-				parent.displayField.setText("" + currentResult);
+				parent.displayField.setText(String.valueOf(currentResult));
 			} else if (selectedAction == '*') {
 				currentResult *= displayValue;
-				parent.displayField.setText("" + currentResult);
+				parent.displayField.setText(String.valueOf(currentResult));
 			}
 		} else {
-			// For all numeric buttons append the button's
-			// label to the text field
+			// 如果点击的是数字按钮，则直接叠加显示到文本框中。
 			String clickedButtonLabel = clickedButton.getText();
 			parent.displayField.setText(dispFieldText + clickedButtonLabel);
 		}
