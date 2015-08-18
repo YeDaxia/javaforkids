@@ -8,29 +8,23 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class MyDateFormat {
-
 	public static void main(String[] args) {
-		// Create an object Date
-		// and print it in a default format
+		// 创建一个日期对象, 输出它的默认格式
 		Date today = new Date();
 		System.out.println("The date is " + today);
-
-		// Format that prints dates like 02-27-04
+		// 格式化输出日期,让它像02-27-04格式一样输出
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy");
 		String formattedDate = sdf.format(today);
 		System.out.println("The date(dd-mm-yy) is " + formattedDate);
-
-		// Format that prints dates like 27-02-2004
+		// 格式化输出日期,让它像27-02-2004格式一样输出
 		sdf = new SimpleDateFormat("dd-MM-yyyy");
 		formattedDate = sdf.format(today);
 		System.out.println("The date(dd-mm-yyyy) is " + formattedDate);
-
-		// Format that prints dates like Fri, Feb 27, �04
+		// 输出日期格式为: Fri, Feb 27, ‘04
 		sdf = new SimpleDateFormat("EEE, MMM d, ''yy");
 		formattedDate = sdf.format(today);
 		System.out.println("The date(EEE, MMM d, ''yy) is " + formattedDate);
-		
-		// Format that prints time like 07:18:51 AM
+		// 输出日期格式为: 07:18:51 AM
 		sdf = new SimpleDateFormat("hh:mm:ss a");
 		formattedDate = sdf.format(today);
 		System.out.println("The time(hh:mm:ss a) is " + formattedDate);

@@ -12,7 +12,7 @@ public class FishMaster_1 {
 		
 		myFish.dive(2);
 		
-		myFish.dive();  // a new overloaded method
+		myFish.dive();  // 一个新的重载方法
 		
 		myFish.dive(97);
 		myFish.dive(3);
