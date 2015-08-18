@@ -1,1 +1,5 @@
+#JAVA
 *.class
+
+#Eclipse
+*/bin

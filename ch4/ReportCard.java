@@ -7,9 +7,8 @@
 public class ReportCard {
 
 	/**
-	 * This method takes one integer argument - the result of the test and
-	 * returns one letter A, B, C or D depending on the argument.
-	 */
+	 *这个方法带了一个int类型的参数testResult：该方法返回的字母是A、B、C还是D取决于这个参数的值。
+	*/
 	public char convertGrades(int testResult) {
 		char grade;
 

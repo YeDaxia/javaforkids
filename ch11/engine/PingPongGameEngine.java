@@ -148,7 +148,7 @@ public class PingPongGameEngine implements Runnable, MouseMotionListener,
 					}
 				}
 
-				// 第3步：上或下移动电脑球拍去击球
+				// 第3步：上或下移动电脑球拍
 				if (computerRacket_Y < ballY && computerRacket_Y < TABLE_BOTTOM) {
 					computerRacket_Y += RACKET_INCREMENT;
 				} else if (computerRacket_Y > TABLE_TOP) {

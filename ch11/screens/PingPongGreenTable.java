@@ -69,7 +69,7 @@ public class PingPongGreenTable extends JPanel implements GameConstants {
 		g.setColor(Color.yellow);
 		g.fillRect(KID_RACKET_X, kidRacket_Y, RACKET_WIDTH, RACKET_LENGTH);
 		
-		// 绘制左边电脑的绿色球拍
+		// 绘制左边电脑的蓝色球拍
 		g.setColor(Color.blue);
 		g.fillRect(COMPUTER_RACKET_X, computerRacket_Y, RACKET_WIDTH,RACKET_LENGTH);
 		

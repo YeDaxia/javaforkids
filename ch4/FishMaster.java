@@ -10,8 +10,8 @@ public class FishMaster {
 		
 	Fish myFish = new Fish();
  
-	// Try to have the fish go below 100 feet	
 	myFish.dive(2);
+	//试着让鱼下潜到比100尺更深的地方
 	myFish.dive(97);
 	myFish.dive(3);
 		

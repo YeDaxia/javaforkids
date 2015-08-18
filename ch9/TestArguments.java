@@ -5,14 +5,11 @@
  * Java Programming for Kids, Parents and Grandparents.
  */
 public class TestArguments {
-
-	public static void main(String[] args) {
-
-        // How many arguments we've got?
- 	  int numberOfArgs = args.length;
-
-	  for (int i=0; i<numberOfArgs; i++){
-	    System.out.println("I've got " + args[i]);
-  	  }
-	}
+    public static void main(String[] args) {
+        // 参数的个数
+        int numberOfArgs = args.length;
+        for (int i=0; i<numberOfArgs; i++){
+            System.out.println("I've got " + args[i]);
+        }
+    }
 }

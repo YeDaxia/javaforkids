@@ -18,40 +18,39 @@ public class TicTacToe extends JApplet implements ActionListener {
 	int emptySquaresLeft = 9;
 
 	/**
-	 * init method is the applet's constructor
+	 * applet 的init方法，相当于构造方法
 	 */
+	@Override
 	public void init() {
-		// Get the applet's content pane -
-		// all window components go there
+
+		// 获取这个applet的窗口面板
 		Container appletContent = this.getContentPane();
 
-		// Set the applet's layout manager, font and background color
+		//设置这个面板的布局管理器，背景颜色
 		appletContent.setLayout(new BorderLayout());
 		appletContent.setBackground(Color.CYAN);
 
-		// Create the button New Game and register it
-		// with the action listener
+		// 创建新游戏的按钮，并给它注册点击事件的监听器
 		newGameButton = new JButton("New Game");
 		newGameButton.addActionListener(this);
 
 		JPanel topPanel = new JPanel();
 		topPanel.add(newGameButton);
 
-		appletContent.add(topPanel, "North");
+		appletContent.add(topPanel, BorderLayout.NORTH);
 
+		//中间的面板是个3*3的网格布局类型,当你往上面添加按钮时，就会从左往右，从上往下依次添加到面板中
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new GridLayout(3, 3));
-		appletContent.add(centerPanel, "Center");
+		appletContent.add(centerPanel, BorderLayout.CENTER);
 
 		score = new JLabel("Your turn!");
-		appletContent.add(score, "South");
+		appletContent.add(score, BorderLayout.SOUTH);
 
-		// create an array to hold references to 9 buttons
+		//创建JButton类型的数组，它负责存放各个按钮的引用
 		squares = new JButton[9];
 
-		// Instantiate the buttons, store the references
-		// to them in the array, register them with the
-		// listeners, paint them in orange and add to panel
+		// 创建游戏面板上那9个按钮，设置他们的背景为橙色，为它们注册事件，依次添加到面板上。
 		for (int i = 0; i < 9; i++) {
 			squares[i] = new JButton();
 			squares[i].addActionListener(this);
@@ -61,15 +60,17 @@ public class TicTacToe extends JApplet implements ActionListener {
 	}
 
 	/**
-	 * This method will process all action events
+	 * 这个方法会处理所有的点击事件
 	 * 
 	 * @param ActionEvent
 	 *            object
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		JButton theButton = (JButton) e.getSource();
-		// Is this a New Game button?
+		
+		//点击的是新游戏按钮
 		if (theButton == newGameButton) {
 			for (int i = 0; i < 9; i++) {
 				squares[i].setEnabled(true);
@@ -81,11 +82,11 @@ public class TicTacToe extends JApplet implements ActionListener {
 			score.setText("Your turn!");
 			newGameButton.setEnabled(false);
 
-			return; // exit the method here
+			return; //退出这个方法
 		}
 
 		String winner = "";
-		// Is this one of the squares?
+		//点击的是中间的方格按钮
 		for (int i = 0; i < 9; i++) {
 			if (theButton == squares[i]) {
 				squares[i].setText("X");
@@ -103,82 +104,88 @@ public class TicTacToe extends JApplet implements ActionListener {
 				}
 				break;
 			}
-		} // end loop
+		} //循环结束
 
+		
 		if (winner.equals("X")) {
 			score.setText("You won!");
 		} else if (winner.equals("O")) {
 			score.setText("You lost!");
 		} else if (winner.equals("T")) {
-			score.setText("It's a tie!");
+			score.setText("It's a tie!"); //平局
 		}
-	} // end actionPerformed
+	} 
 
 	/**
-	 * This method is called after every move to see if we have a winner. It
-	 * checks every row, column and diagonal to find out three squares with the
-	 * same label (other than blank)
+	 * 这个方法走一步之后都会被调用，它用于检查每行，每列，每个对角线是否出现相同的'O'或者'X'符号。如果有则表示一方赢了，然后高亮显示赢的结果。
 	 * 
-	 * @return "X", "O", "T" for tie or "" for no winner
+	 * @return "X", "O", "T" for tie or "" for no winner ‘X’代表玩家赢了，'O'代表计算机赢了，'T' 代表平局，""代表还没结束
 	 */
 	String lookForWinner() {
 
 		String theWinner = "";
 		emptySquaresLeft--;
 
+		//没有空白格子了，平局
 		if (emptySquaresLeft == 0) {
-			return "T"; // it's a tie
+			return "T"; 
 		}
 
-		// Check the row 1 - array elements 0,1,2
+		//检查第1行是否是相同的符号
 		if (!squares[0].getText().equals("")
 				&& squares[0].getText().equals(squares[1].getText())
 				&& squares[0].getText().equals(squares[2].getText())) {
 
 			theWinner = squares[0].getText();
 			highlightWinner(0, 1, 2);
-			// Check the row 2 - array elements 3,4,5
+			
+		//检查第2行
 		} else if (!squares[3].getText().equals("")
 				&& squares[3].getText().equals(squares[4].getText())
 				&& squares[3].getText().equals(squares[5].getText())) {
 
 			theWinner = squares[3].getText();
 			highlightWinner(3, 4, 5);
-			// Check the row 3 - - array elements 6,7,8
+			
+		//检查第3行
 		} else if (!squares[6].getText().equals("")
 				&& squares[6].getText().equals(squares[7].getText())
 				&& squares[6].getText().equals(squares[8].getText())) {
 
 			theWinner = squares[6].getText();
 			highlightWinner(6, 7, 8);
-			// Check the column 1 - array elements 0,3,6
+			
+		//检查第1列
 		} else if (!squares[0].getText().equals("")
 				&& squares[0].getText().equals(squares[3].getText())
 				&& squares[0].getText().equals(squares[6].getText())) {
 
 			theWinner = squares[0].getText();
 			highlightWinner(0, 3, 6);
-			// Check the column 2 - array elements 1,4,7
+			
+		//检查第2列
 		} else if (!squares[1].getText().equals("")
 				&& squares[1].getText().equals(squares[4].getText())
 				&& squares[1].getText().equals(squares[7].getText())) {
 
 			theWinner = squares[1].getText();
 			highlightWinner(1, 4, 7);
-			// Check the column 3 - array elements 2,5,8
+			
+		//检查第3列
 		} else if (!squares[2].getText().equals("")
 				&& squares[2].getText().equals(squares[5].getText())
 				&& squares[2].getText().equals(squares[8].getText())) {
 			theWinner = squares[2].getText();
 			highlightWinner(2, 5, 8);
-			// Check the first diagonal - array elements 0,4,8
+			
+		//检查对角线
 		} else if (!squares[0].getText().equals("")
 				&& squares[0].getText().equals(squares[4].getText())
 				&& squares[0].getText().equals(squares[8].getText())) {
 
 			theWinner = squares[0].getText();
 			highlightWinner(0, 4, 8);
-			// Check the second diagonal - array elements 2,4,6
+			
 		} else if (!squares[2].getText().equals("")
 				&& squares[2].getText().equals(squares[4].getText())
 				&& squares[2].getText().equals(squares[6].getText())) {
@@ -190,48 +197,41 @@ public class TicTacToe extends JApplet implements ActionListener {
 	}
 
 	/**
-	 * This method applies a set of rules to find the best computer's move. If a
-	 * good move can't be found, it picks a random square.
+	 * 这个方法负责用设定好的规则去找出最合适计算机的一步，如果没有找到，就随机选一个
 	 */
 	void computerMove() {
 
 		int selectedSquare;
-		// Computer first tries to find an empty
-		// square next the two squares with "O" to win
+
+		// 第一步，试图找到同一条线上是否存在一个空方格连着两个'O'，如果有就意味着你输了
 		selectedSquare = findEmptySquare("O");
 
-		// if can't find two "O", at least try to stop the
-		// opponent from making 3 in a row by placing
-		// "O" next to 2 "X".
+		// 第二步，如果不存在连个相连的'O',，则找是否有空格之间存在两个连着的'X'，有的话就计算机就要去阻止它了。
 		if (selectedSquare == -1)
 			selectedSquare = findEmptySquare("X");
 
-		// if the selectedSquare is still -1, at least
-		// try to occupy the central square
+		//第三步，如果都没有，则看看中间是不是空的，是的话就填这个吧。
 		if ((selectedSquare == -1) && (squares[4].getText().equals("")))
 			selectedSquare = 4;
 
-		// no luck with the central either...
-		// just get a random square
+		//好吧，中间已经被占领了，那就随便选一个吧。
 		if (selectedSquare == -1)
 			selectedSquare = getRandomSquare();
 
 		squares[selectedSquare].setText("O");
 	}
 
+
 	/**
-	 * This method checks every row, column and diagonal to see if there are two
-	 * squares with the same label and an empty square.
-	 * 
-	 * @param give
-	 *            X - for the user, and O for the computer
-	 * @return the number of the empty square to use, or the negative 1 could
-	 *         not find 2 square with the same label
+	 *  这个方法会检查每行，每列，每一条对角线是否存在一个空格在两个和参数player相同符号间，如果有则返回这个空格的位置。
+	 * @param player X是玩家，O是计算机
+	 * @return  返回这个空格的位置，如果不存在，则返回-1
 	 */
 	int findEmptySquare(String player) {
 
 		int weight[] = new int[9];
-
+		
+		//'O'的格子填-1, 'X'的格子填1,其他为0
 		for (int i = 0; i < 9; i++) {
 			if (squares[i].getText().equals("O"))
 				weight[i] = -1;
@@ -241,9 +241,10 @@ public class TicTacToe extends JApplet implements ActionListener {
 				weight[i] = 0;
 		}
 
+		//如果一条线上的值为2则表示有两个'O'在这条直线上，如果有两个'X'，则是-2
 		int twoWeights = player.equals("O") ? -2 : 2;
 
-		// See if row 1 has the same 2 squares and a blank
+		// 看看第1行是否存在空格连着两个相同符号的
 		if (weight[0] + weight[1] + weight[2] == twoWeights) {
 			if (weight[0] == 0)
 				return 0;
@@ -252,7 +253,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 2;
 		}
-		// See if row 2 has the same 2 squares and a blank
+		
+		// 看看第2行
 		if (weight[3] + weight[4] + weight[5] == twoWeights) {
 			if (weight[3] == 0)
 				return 3;
@@ -261,7 +263,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 5;
 		}
-		// See if row 3 has the same 2 squares and a blank
+		
+		// 看看第3行
 		if (weight[6] + weight[7] + weight[8] == twoWeights) {
 			if (weight[6] == 0)
 				return 6;
@@ -270,7 +273,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 8;
 		}
-		// See if column 1 has the same 2 squares and a blank
+		
+		// 看看第1列
 		if (weight[0] + weight[3] + weight[6] == twoWeights) {
 			if (weight[0] == 0)
 				return 0;
@@ -279,7 +283,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 6;
 		}
-		// See if column 2 has the same 2 squares and a blank
+		
+		// 看看第2列
 		if (weight[1] + weight[4] + weight[7] == twoWeights) {
 			if (weight[1] == 0)
 				return 1;
@@ -288,7 +293,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 7;
 		}
-		// See if column 3 has the same 2 squares and a blank
+		
+		// 看看第3列
 		if (weight[2] + weight[5] + weight[8] == twoWeights) {
 			if (weight[2] == 0)
 				return 2;
@@ -297,7 +303,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 8;
 		}
-		// See if diagonal 1 has the same 2 squares and a blank
+		
+		//看看左上角到右下角的对角线
 		if (weight[0] + weight[4] + weight[8] == twoWeights) {
 			if (weight[0] == 0)
 				return 0;
@@ -306,7 +313,8 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 8;
 		}
-		// See if diagonal has the same 2 squares and a blank
+		
+		//看看右上角到左下角的对角线
 		if (weight[2] + weight[4] + weight[6] == twoWeights) {
 			if (weight[2] == 0)
 				return 2;
@@ -315,14 +323,13 @@ public class TicTacToe extends JApplet implements ActionListener {
 			else
 				return 6;
 		}
-		// do not have the same two neighbors
+		
+		// 没有就返回-1
 		return -1;
-	} // end of findEmptySquare
+	} 
 
 	/**
-	 * This method selects any empty square
-	 * 
-	 * @return a randomly selected square number
+	 *  随机产生0到9之间的数字, 而且这个数字所对应的方格还必须是空的
 	 */
 	int getRandomSquare() {
 		boolean gotEmptySquare = false;
@@ -331,22 +338,16 @@ public class TicTacToe extends JApplet implements ActionListener {
 		do {
 			selectedSquare = (int) (Math.random() * 9);
 			if (squares[selectedSquare].getText().equals("")) {
-				gotEmptySquare = true; // the looping will end
+				gotEmptySquare = true; // 循环结束
 			}
 		} while (!gotEmptySquare);
 
 		return selectedSquare;
-	} // end getRandomSquare()
+	} 
 
+	
 	/**
-	 * This method highlights the winning line
-	 * 
-	 * @param first
-	 *            square to highlight
-	 * @param second
-	 *            square to highlight
-	 * @param third
-	 *            square to highlight
+	 *  这个方法负责高亮显示赢的那条路径
 	 */
 	void highlightWinner(int win1, int win2, int win3) {
 		squares[win1].setBackground(Color.CYAN);
@@ -355,7 +356,7 @@ public class TicTacToe extends JApplet implements ActionListener {
 	}
 
 	/**
-	 * Disables squares and enable New Game button
+	 * 禁用方格的所有按钮(点击无效)，让新游戏的按钮生效(可以点击)
 	 */
 	void endTheGame() {
 		for (int i = 0; i < 9; i++) {

@@ -9,45 +9,40 @@ import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ThreadsSample extends JFrame 
-             implements ActionListener, Runnable{
-	
-  // Constructor
-  ThreadsSample(){
-   // Create a frame with a button and a text field
-	GridLayout gl =new GridLayout(2,1); 
-	this.getContentPane().setLayout(gl);
-	JButton myButton = new JButton("Kill Time");
-	myButton.addActionListener(this);
-	this.getContentPane().add(myButton);    
-	this.getContentPane().add(new JTextField());
-  }
+public class ThreadsSample extends JFrame implements ActionListener, Runnable {
 
-  public void actionPerformed(ActionEvent e){
-  // Create a thread and execute the kill-time-code
-  // without blockiing the window
-    Thread worker = new Thread(this);
-    worker.start();  // this calls the method run()
-  }
-
-  public void run(){
-  // Just  kill some time to show that
-  // window controls are NOT locked
-	for (int i=0; i<30000;i++){
-  	  this.setTitle("i="+i);	
+	ThreadsSample() {
+		GridLayout gl = new GridLayout(2, 1);
+		this.getContentPane().setLayout(gl);
+		JButton myButton = new JButton("Kill Time");
+		myButton.addActionListener(this);
+		this.getContentPane().add(myButton);
+		this.getContentPane().add(new JTextField());
 	}
-   }
-    
-  public static void main(String[] args) {
 
-	ThreadsSample myWindow = new ThreadsSample();
-  // Ensure that the window can be closed 
-  // by pressing a little cross in the corner
-	myWindow.setDefaultCloseOperation(
-                    WindowConstants.EXIT_ON_CLOSE);
-		
-  // Set the frame's size and make it visible
-	myWindow.setBounds(0,0,150, 100);
-	myWindow.setVisible(true);
-  }
+	public void actionPerformed(ActionEvent e) {
+		//创建一个线程去执行消耗时间的代码，让窗口处于可活动状态
+		Thread worker = new Thread(this);
+		worker.start(); // 开启线程，它会执行run里面的代码
+	}
+
+	public void run() {
+		for (int i = 0; i < 30000; i++) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			this.setTitle("i=" + i);
+		}
+	}
+
+	public static void main(String[] args) {
+
+		ThreadsSample myWindow = new ThreadsSample();
+		myWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+		myWindow.setBounds(0, 0, 150, 100);
+		myWindow.setVisible(true);
+	}
 }
